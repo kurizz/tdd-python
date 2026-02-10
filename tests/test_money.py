@@ -1,8 +1,7 @@
-import unittest
 from dollar import Dollar
 
-class MoneyTest(unittest.TestCase):
-    
+class TestMoney():
+
     def test_multiplication(self):
         five = Dollar(5)
         five.times(2)
