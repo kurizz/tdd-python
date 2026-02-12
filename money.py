@@ -4,4 +4,4 @@ class Money():
         self._amount = amount
 
     def __eq__(self, money: 'Money') -> bool:
-        return self._amount == money._amount
+        return self._amount == money._amount and type(self) == type(money)
