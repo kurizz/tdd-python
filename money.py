@@ -1,9 +1,4 @@
-from typing import TYPE_CHECKING
 from abc import ABC
-
-if TYPE_CHECKING:
-    from dollar import Dollar
-    from franc import Franc
 
 
 class Money(ABC):
@@ -26,11 +21,9 @@ class Money(ABC):
         return str(self._amount) + self.currency
 
     @staticmethod
-    def dollar(amount: int) -> 'Dollar':
-        from dollar import Dollar
-        return Dollar(amount, "USD")
+    def dollar(amount: int) -> 'Money':
+        return Money(amount, "USD")
 
     @staticmethod
-    def franc(amount: int) -> 'Franc':
-        from franc import Franc
-        return Franc(amount, "CHF")
+    def franc(amount: int) -> 'Money':
+        return Money(amount, "CHF")
