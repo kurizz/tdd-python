@@ -1,4 +1,5 @@
 from expression import Expression
+from sum import Sum
 
 
 class Money(Expression):
@@ -11,7 +12,10 @@ class Money(Expression):
         return Money(self.amount * multiplier, self.currency)
 
     def plus(self, addend: int) -> Expression:
-        return Money(self.amount + addend.amount, self.currency)
+        return Sum(self, addend)
+
+    def reduce(self, to: str):
+        return self
 
     @property
     def currency(self) -> str:
