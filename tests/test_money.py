@@ -29,6 +29,14 @@ class TestMoney():
         reduced = Bank().reduce(Money.dollar(1), "USD")
         assert Money.dollar(1) == reduced
 
+    def test_reduce_money_differenct_currency(self):
+        bank = Bank()
+        bank.addRate("CHF", "USD", 2)
+        assert Money.dollar(1) == bank.reduce(Money.franc(2), "USD")
+
+    def test_identity_rate(self):
+        assert 1 == Bank().rate("USD", "USD")
+
     def test_equality(self):
         assert Money.dollar(5) == Money.dollar(5)
         assert not Money.dollar(5) == Money.dollar(6)

@@ -1,5 +1,9 @@
 from expression import Expression
 from sum import Sum
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from bank import Bank
 
 
 class Money(Expression):
@@ -14,8 +18,9 @@ class Money(Expression):
     def plus(self, addend: int) -> Expression:
         return Sum(self, addend)
 
-    def reduce(self, to: str):
-        return self
+    def reduce(self, bank: Bank, to: str):
+        rate = bank.rate(self.currency, to)
+        return Money(self.amount / rate, to)
 
     @property
     def currency(self) -> str:
