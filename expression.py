@@ -8,5 +8,9 @@ if TYPE_CHECKING:
 
 
 class Expression(ABC):
-    def reduce(self, bank: Bank, to: str) -> Money:
+
+    def plus(self, addend: 'Expression'):
         pass
+
+    def reduce(self, bank: Bank, to: str) -> Money:
+       return Money(0, "")

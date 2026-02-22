@@ -8,12 +8,15 @@ if TYPE_CHECKING:
 
 class Sum(Expression):
 
-    def __init__(self, augend, addend):
+    def __init__(self, augend: Expression, addend: Expression):
         self.augend = augend
         self.addend = addend
 
+    def plus(self, addend: Expression):
+        pass
+
     def reduce(self, bank: Bank, to: str) -> 'Money':
         from money import Money
-        amount = self.augend.amount + self.addend.amount
+        amount = self.augend.reduce(bank, to).amount + self.addend.reduce(bank, to).amount
         return Money(amount, to)
 

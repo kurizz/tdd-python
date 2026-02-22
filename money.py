@@ -8,14 +8,14 @@ if TYPE_CHECKING:
 
 class Money(Expression):
 
-    def __init__(self, amount: int, currency: str):
+    def __init__(self, amount: float, currency: str):
         self._amount = amount
         self._currency = currency
 
-    def times(self, multiplier: int) -> 'Money':
+    def times(self, multiplier: int) -> Expression:
         return Money(self.amount * multiplier, self.currency)
 
-    def plus(self, addend: int) -> Expression:
+    def plus(self, addend: Expression) -> Expression:
         return Sum(self, addend)
 
     def reduce(self, bank: Bank, to: str):
@@ -27,7 +27,7 @@ class Money(Expression):
         return self._currency
 
     @property
-    def amount(self) -> int:
+    def amount(self) -> float:
         return self._amount
 
     def __eq__(self, money: 'Money') -> bool:
@@ -41,5 +41,5 @@ class Money(Expression):
         return Money(amount, "USD")
 
     @staticmethod
-    def franc(amount: int) -> 'Money':
+    def franc(amount: int) -> Expression:
         return Money(amount, "CHF")

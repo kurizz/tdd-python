@@ -14,6 +14,13 @@ class TestMoney():
         reduced = Bank().reduce(sum, "USD")
         assert Money.dollar(10) == reduced
 
+    def test_mixed_addition(self):
+        five_bucks = Money.dollar(5)
+        ten_francs = Money.franc(10)
+        bank = Bank()
+        bank.addRate("CHF", "USD", 2)
+        assert Money.dollar(10) == bank.reduce(five_bucks.plus(ten_francs), "USD")
+
     def test_plus_returns_sum(self):
         five = Money.dollar(5)
         sum = five.plus(five)
@@ -47,4 +54,4 @@ class TestMoney():
         assert "CHF" == Money.franc(1).currency
 
     def test_amount(self):
-        assert 10 is Money.dollar(10).amount
+        assert 10 == Money.dollar(10).amount
