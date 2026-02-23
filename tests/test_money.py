@@ -1,6 +1,8 @@
 from money import Money
 from bank import Bank
 from sum import Sum
+from typing import cast
+
 
 class TestMoney():
 
@@ -23,9 +25,25 @@ class TestMoney():
 
     def test_plus_returns_sum(self):
         five = Money.dollar(5)
-        sum = five.plus(five)
+        sum = cast(Sum, five.plus(five))
         assert five == sum.augend
         assert five == sum.addend
+
+    def test_sum_plus_money(self):
+        five_bucks = Money.dollar(5)
+        ten_francs = Money.franc(10)
+        bank = Bank()
+        bank.addRate("CHF", "USD", 2)
+        sum = Sum(five_bucks, ten_francs).plus(five_bucks)
+        assert Money.dollar(15) == bank.reduce(sum, "USD")
+
+    def test_sum_times(self):
+        five_bucks = Money.dollar(5)
+        ten_franc = Money.franc(10)
+        bank = Bank()
+        bank.addRate("CHF", "USD", 2)
+        sum = Sum(five_bucks, ten_franc).times(2)
+        assert Money.dollar(20) == bank.reduce(sum, "USD")
 
     def test_reduce_sum(self):
         sum = Sum(Money.dollar(3), Money.dollar(4))
@@ -49,7 +67,7 @@ class TestMoney():
         assert not Money.dollar(5) == Money.dollar(6)
         assert not Money.dollar(5) == Money.franc(5)
 
-    def test_currenry(self):
+    def test_currency(self):
         assert "USD" == Money.dollar(1).currency
         assert "CHF" == Money.franc(1).currency
 

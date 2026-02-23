@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
 
@@ -9,8 +9,14 @@ if TYPE_CHECKING:
 
 class Expression(ABC):
 
-    def plus(self, addend: 'Expression'):
-        pass
+    @abstractmethod
+    def times(self, multiplier: int) -> 'Expression':
+        ...
 
+    @abstractmethod
+    def plus(self, addend: 'Expression'):
+        ...
+
+    @abstractmethod
     def reduce(self, bank: Bank, to: str) -> Money:
-       return Money(0, "")
+        ...
