@@ -1,4 +1,22 @@
+class TestResult:
+    """Testing Framework: 実行結果をどう保持するかを定義"""
+
+    def __init__(self):
+        self.runCount = 0
+        self.errorCount = 0
+
+    def testStarted(self):
+        self.runCount = self.runCount + 1
+
+    def testFailed(self):
+        self.errorCount = self.errorCount + 1
+
+    def summary(self):
+        return "%d run, %d failed" % (self.runCount, self.errorCount)
+
+
 class TestCase:
+    """Testing Framework: テストの実行順序を制御"""
 
     def __init__(self, name):
         self.name = name
@@ -23,6 +41,7 @@ class TestCase:
 
 
 class WasRun(TestCase):
+    """TestCaseTest 検証用のダミー。テストダブル (Spy, Stub) の役割"""
 
     def setUp(self):
         self.log = "setUp "
@@ -35,22 +54,6 @@ class WasRun(TestCase):
 
     def tearDown(self):
         self.log = self.log + "tearDown "
-
-
-class TestResult:
-
-    def __init__(self):
-        self.runCount = 0
-        self.errorCount = 0
-
-    def testStarted(self):
-        self.runCount = self.runCount + 1
-
-    def testFailed(self):
-        self.errorCount = self.errorCount + 1
-
-    def summary(self):
-        return "%d run, %d failed" % (self.runCount, self.errorCount)
 
 
 class TestCaseTest(TestCase):
