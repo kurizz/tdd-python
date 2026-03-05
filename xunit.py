@@ -30,9 +30,9 @@ class TestCase:
     def run(self):
         result = TestResult()
         result.testStarted()
-        self.setUp()
-        method = getattr(self, self.name)
         try:
+            self.setUp()
+            method = getattr(self, self.name)
             method()
         except Exception:
             result.testFailed()
@@ -45,6 +45,8 @@ class WasRun(TestCase):
 
     def setUp(self):
         self.log = "setUp "
+        if self.name == "testBrokenSetup":
+            raise Exception
 
     def testMethod(self):
         self.log = self.log + "testMethod "
@@ -79,8 +81,14 @@ class TestCaseTest(TestCase):
         result.testFailed()
         assert "1 run, 1 failed" == result.summary()
 
+    def testFailedSetup(self):
+        test = WasRun("testBrokenSetup")
+        result = test.run()
+        assert "1 run, 1 failed" == result.summary()
+
 
 print(TestCaseTest("testTemplateMethod").run().summary())
 print(TestCaseTest("testResult").run().summary())
 print(TestCaseTest("testFailedResult").run().summary())
 print(TestCaseTest("testFailedResultFormatting").run().summary())
+print(TestCaseTest("testFailedSetup").run().summary())
