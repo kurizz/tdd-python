@@ -45,8 +45,6 @@ class WasRun(TestCase):
 
     def setUp(self):
         self.log = "setUp "
-        if self.name == "testBrokenSetup":
-            raise Exception
 
     def testMethod(self):
         self.log = self.log + "testMethod "
@@ -56,6 +54,15 @@ class WasRun(TestCase):
 
     def tearDown(self):
         self.log = self.log + "tearDown "
+
+
+class BrokenSetup(TestCase):
+    """setUp 例外の検証用のダミー。テストダブル (Spy, Stub) の役割"""
+    def setUp(self):
+        raise Exception
+
+    def testMethod(self):
+        pass
 
 
 class TestCaseTest(TestCase):
@@ -82,7 +89,7 @@ class TestCaseTest(TestCase):
         assert "1 run, 1 failed" == result.summary()
 
     def testFailedSetup(self):
-        test = WasRun("testBrokenSetup")
+        test = BrokenSetup("testMethod")
         result = test.run()
         assert "1 run, 1 failed" == result.summary()
 
